@@ -1,0 +1,29 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="row flex-column align-items-center">
+        {% if subscriptions %}
+          {% for post in posts %}
+            <span class="col-auto h3 text-white">
+            <a href="{% url 'author' post.author.pk %}" class="blog-link">Автор - {{ post.author.get_full_name }}</a>
+          </span>
+            {% include 'main_app/post.html' %}
+          {% endfor %}
+        {% else %}
+          <div class="col-auto py-5">
+            <span class="text-white h4"><a href="{% url 'post-list' %}" class="">Подписывайтесь</a> на любимых авторов, чтобы не пропустить ни одной записи</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let section = document.querySelector('header a[href="{% url 'subscriptions' %}"]');
+    section.style.borderBottom = "solid 3px white"
+  </script>
+
+{% endblock %}
+

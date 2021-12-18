@@ -1,0 +1,33 @@
+body {
+    min-height: 1000px;
+}
+
+.blog-list {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.blog-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.blog-list::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 20px;
+}
+
+.blog-list::-webkit-scrollbar-thumb {
+    background-color: #c9c9c9;
+    border-radius: 20px;
+}
+
+
+.blog-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.blog-link:hover {
+    color: lightgray;
+}
+

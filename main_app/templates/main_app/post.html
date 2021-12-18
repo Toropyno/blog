@@ -1,0 +1,13 @@
+<div class="mb-4" id="post{{ post.pk }}">
+  <div class="card text-white bg-secondary mb-3 ">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span class="h4">{{ post.title }}</span>
+      <span>{{ post.pub_date|date }}</span>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        {{ post.content|linebreaksbr }}
+      </p>
+    </div>
+  </div>
+</div>

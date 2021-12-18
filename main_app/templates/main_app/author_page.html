@@ -1,0 +1,136 @@
+{% extends 'main_app/base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center mb-2">
+    <div class="col-6">
+      <div class="row justify-content-between align-items-center">
+        <span class="col-auto h3 text-white">{{ author.get_full_name }}</span>
+        <span class="col-auto h4 text-white">Всего записей - {{ posts.count }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex align-items-start justify-content-center">
+      <div class="card text-white bg-secondary" style="width: 16rem;">
+        <span class="d-flex justify-content-center" style="font-size: 130px"><i class="bi bi-person"></i></span>
+        <div class="card-body">
+          <h5 class="card-title">{{ author.get_full_name }}</h5>
+        </div>
+        <ul class="list-group list-group-flush ">
+          <li class="list-group-item text-white bg-secondary">
+            <span class="" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#subscriberModal">
+              Читатели: {{ subscribers.count }}
+            </span>
+
+            <!-- Modal -->
+            <div class="modal fade" id="subscriberModal" tabindex="-1" aria-labelledby="subscriberModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-secondary">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="subscriberModalLabel">Читатели</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% if subscribers %}
+                      <div class="list-group list-group-flush">
+                        {% for subscriber in subscribers %}
+                          <a href="{% url 'author' subscriber.pk %}" class="list-group-item text-white"
+                             style="background-color: #6C757DFF">
+                            <i class="bi bi-person"></i>
+                            {{ subscriber.get_full_name }}
+                          </a>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      <div class="d-flex justify-content-center">
+                        Список пуст
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item text-white bg-secondary">
+            <span class="" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+              Подписки: {{ subscriptions.count }}
+            </span>
+
+            <!-- Modal -->
+            <div class="modal fade" id="subscriptionModal" tabindex="-1" aria-labelledby="subscriptionModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-secondary">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="subscriptionModalLabel">Подписки</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% if subscriptions %}
+                      <div class="list-group list-group-flush">
+                        {% for subscription in subscriptions %}
+                          <a href="{% url 'author' subscription.pk %}" class="list-group-item text-white"
+                             style="background-color: #6C757DFF">
+                            <i class="bi bi-person"></i>
+                            {{ subscription.get_full_name }}
+                          </a>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      <div class="d-flex justify-content-center">
+                        Список пуст
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="card-body d-flex justify-content-center">
+          {% if is_subscription %}
+            <form action="{% url 'api:user-unsubscribe' author.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-light btn-sm">Перестать следить</button>
+            </form>
+          {% else %}
+            <form action="{% url 'api:user-subscribe' author.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-light btn-sm">Подписаться на автора</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="row flex-column align-items-center">
+        {% for post in posts %}
+          {% include 'main_app/post.html' %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col">
+      {% if posts %}
+        <div class="card text-white bg-secondary" style="width: 16rem; position: sticky; top: 0">
+          <div class="card-body">
+            <h5 class="card-title">Записи</h5>
+          </div>
+          <div class="list-group list-group-flush blog-list">
+            {% for post in posts %}
+              <a href="#post{{ post.pk }}" class="list-group-item text-white"
+                 style="background-color: #6C757DFF">
+                {{ post.title }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}

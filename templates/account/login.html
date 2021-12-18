@@ -1,0 +1,51 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_filters %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6 text-white">
+        <h1>{% trans "Sign In" %}</h1>
+
+        {% get_providers as socialaccount_providers %}
+        <p>{% blocktrans %}Если вы еще не создали учетную запись, пожалуйста, сначала
+          <a href="{{ signup_url }}">зарегистрируйтесь</a>{% endblocktrans %}</p>
+
+        <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %}
+          {{ form|crispy }}
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          <button type="submit" class="btn btn-secondary btn-sm">Войти</button>
+        </form>
+
+        {% if socialaccount_providers %}
+          <div class=" bg-white rounded px-3 py-2 mt-3 text-dark">
+            <p>{% blocktrans %}Вы также можете авторизоваться через:{% endblocktrans %}</p>
+            <div class="socialaccount_ballot">
+
+              <ul class="socialaccount_providers">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+              </ul>
+
+              {#            <div class="login-or">{% trans 'or' %}</div>#}
+              {##}
+            </div>
+            {##}
+                      {% include "socialaccount/snippets/login_extra.html" %}
+          </div>
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

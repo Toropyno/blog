@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{% static 'main_app/css/bootstrap-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'main_app/css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+
+
+</head>
+<body class="bg-dark">
+<header class="bg-secondary py-3 mb-5">
+  <div class="container">
+    <div class="row h3 text-white ">
+      <div class="col d-flex align-items-center">
+        <span class="display-6 text-white">
+          <i class="bi bi-chat-square-text"></i>
+          Blog
+        </span>
+      </div>
+      <div class="col d-flex align-items-center">
+        <span class=""><a href="{% url 'index' %}" class="blog-link">Мой блог</a></span>
+      </div>
+
+      <div class="col d-flex align-items-center">
+        <span class=""><a href="{% url 'subscriptions' %}" class="blog-link">Подписки</a></span>
+      </div>
+
+      <div class="col d-flex align-items-center">
+        <span class=""><a href="{% url 'post-list' %}" class="blog-link">Другие авторы</a></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  {% block content %}
+
+  {% endblock %}
+</div>
+
+<footer style="min-height: 200px">
+
+</footer>
+
+<script src="{% static 'main_app/js/bootstrap.bundle.js' %}"></script>
+</body>
+</html>
